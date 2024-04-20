@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation project(':gateway')
+    implementation project(':config-server')
+    implementation project(':eureka-server')
+    implementation project(':web-app')
+    implementation project(':system')
+}
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+}
