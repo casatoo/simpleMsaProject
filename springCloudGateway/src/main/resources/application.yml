@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: springCloudGateway
+  cloud:
+    gateway:
+      routes:
+        - id: ms1
+          uri: lb://MS1
+          predicates:
+            - Path=/ms1/**
+        - id: ms2
+          uri: lb://ms2
+          predicates:
+            - Path=/ms2/**
+
+server:
+  port: 8090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+  endpoint:
+    gateway:
+      enabled: true

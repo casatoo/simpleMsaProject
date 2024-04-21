@@ -8,6 +8,7 @@ dependencies {
     implementation project(':eureka-server')
     implementation project(':web-app')
     implementation project(':system')
+    implementation project(':springCloudGateway')
 }
 repositories {
     mavenCentral()

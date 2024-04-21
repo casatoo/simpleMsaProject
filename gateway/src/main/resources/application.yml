@@ -11,10 +11,10 @@ spring:
           uri: lb://MS1
           predicates:
             - Path=/ms1/**
-#        - id: ms2
-#          uri: lb://ms2
-#          predicates:
-#            - Path=/ms2/**
+        - id: ms2
+          uri: lb://ms2
+          predicates:
+            - Path=/ms2/**
 
 eureka:
   client:
