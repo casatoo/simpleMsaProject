@@ -9,6 +9,7 @@ dependencies {
     implementation project(':system')
     implementation project(':springCloudGateway')
     implementation project(':webFlux')
+    implementation project(':webFluxMongodb')
 }
 repositories {
     mavenCentral()

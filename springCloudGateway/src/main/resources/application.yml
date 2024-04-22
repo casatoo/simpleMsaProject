@@ -21,6 +21,10 @@ spring:
           uri: lb://MS3
           predicates:
             - Path=/ms3/**
+        - id: ms4
+          uri: lb://MS4
+          predicates:
+            - Path=/ms4/**
 eureka:
   client:
     register-with-eureka: true
