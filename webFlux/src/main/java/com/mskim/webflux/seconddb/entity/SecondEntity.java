@@ -1,9 +1,9 @@
-package com.mskim.webflux.entity;
+package com.mskim.webflux.seconddb.entity;
 
 import lombok.Data;
 
 @Data
-public class DataEntity {
+public class SecondEntity {
 
     private int id;
 

@@ -18,3 +18,11 @@
 - https://github.com/casatoo/config-test.git
 - ms1-dev.yml : web-app
 - ms2-dev.yml : system
+
+### mysql
+- USER : "root"
+- PASSWORD : ""
+- localhost:3306/msa_project
+  - first_entity
+- localhost:3306/msa_project2
+  - second_entity
