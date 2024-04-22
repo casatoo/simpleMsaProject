@@ -12,6 +12,7 @@
 - springCloudGateway : 8080
 - webapp : 8081
 - system : 8082
+- webFlux : 8083
 
 ### configServer gitHub
 - https://github.com/casatoo/config-test.git
