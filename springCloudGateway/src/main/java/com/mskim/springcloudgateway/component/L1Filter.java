@@ -24,7 +24,7 @@ public class L1Filter extends AbstractGatewayFilterFactory<L1Filter.Config> {
 
             if (config.isPre()) {
                 // 지역필터 마이크로 서비스를 거치기 전
-                System.out.println("pre local filter 1");
+                System.out.println("requestUrl : [Pre][LocalFilter1] " + exchange.getAttributes().get("org.springframework.cloud.gateway.support.ServerWebExchangeUtils.gatewayPredicatePathContainer"));
             }
 
             return chain.filter(exchange)
@@ -32,7 +32,7 @@ public class L1Filter extends AbstractGatewayFilterFactory<L1Filter.Config> {
 
                         if (config.isPost()) {
                             // 지역필터 마이크로 서비스를 거치고 난 후
-                            System.out.println("post local filter 1");
+                            System.out.println("requestUrl : [Post][LocalFilter1] " + exchange.getAttributes().get("org.springframework.cloud.gateway.support.ServerWebExchangeUtils.gatewayPredicatePathContainer"));
                         }
                     }));
         };
