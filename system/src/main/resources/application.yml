@@ -1,26 +1,7 @@
-#spring:
-#  application:
-#    name: ms2
-#  profiles:
-#    active: dev
-#  config:
-#    import: optional:configserver:http://admin:1234@localhost:9080
-#
-
-## ms2-dev
-server:
-  port: 8082
-
 spring:
   application:
-    name: ms1
-  cloud:
-    config:
-      enabled: false
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://admin:1234@localhost:8761/eureka
+    name: ms2
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://admin:1234@localhost:9080

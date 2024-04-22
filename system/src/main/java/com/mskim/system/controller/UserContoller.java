@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class UserContoller {
 
-    @GetMapping("ms1/main")
+    @GetMapping("ms2/main")
     public String main() {
         return "sys/main";
     }
