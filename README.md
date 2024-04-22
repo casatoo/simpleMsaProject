@@ -22,6 +22,7 @@
 - webapp : 8081
 - system : 8082
 - webFlux : 8083
+- webFluxMongodb : 8084
 ---
 ### configServer gitHub
 - https://github.com/casatoo/config-test.git
