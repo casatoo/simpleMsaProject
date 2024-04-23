@@ -8,6 +8,7 @@
 - localhost:8080/ms3/first/db
 - localhost:8080/ms3/second/db
 - localhost:8080/ms4/data
+- localhost:8080/security/main
 ---
 ### environment
 - springBoot 3.2.5
@@ -23,6 +24,7 @@
 - system : 8082
 - webFlux : 8083
 - webFluxMongodb : 8084
+- security : 8085
 ---
 ### configServer gitHub
 - https://github.com/casatoo/config-test.git
@@ -43,3 +45,4 @@
 - localhost:27017/database
   - table1
 ---
+### security

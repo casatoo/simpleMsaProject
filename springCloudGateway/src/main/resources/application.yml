@@ -25,6 +25,11 @@ spring:
           uri: lb://MS4
           predicates:
             - Path=/ms4/**
+        - id: security
+          uri: lb://SECURITY
+          predicates:
+            - Path=/security/**
+
 eureka:
   client:
     register-with-eureka: true
