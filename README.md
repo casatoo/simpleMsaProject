@@ -9,6 +9,10 @@
 - localhost:8080/ms3/second/db
 - localhost:8080/ms4/data
 - localhost:8080/security/main
+- localhost:8080/security/login (로그인 화면)
+- localhost:8080/security/join (회원가입 화면)
+- localhost:8080/security/loginProc (로그인 요청)
+- localhost:8080/security/joinProc (회원가입 요청)
 ---
 ### environment
 - springBoot 3.2.5
@@ -36,6 +40,7 @@
 - PASSWORD : ""
 - localhost:3306/msa_project
   - first_entity
+  - userEntity
 - localhost:3306/msa_project2
   - second_entity
 ---
@@ -45,4 +50,3 @@
 - localhost:27017/database
   - table1
 ---
-### security

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -11,12 +12,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/login/login").permitAll() // 해당 경로는 모든 접근 가능
-                        .requestMatchers("/admin/admin").hasRole("ADMIN") // ADMIN 권한만 접근 가능
+                        .requestMatchers("/", "/security/login", "/security/join", "/security/loginProc","/security/joinProc").permitAll() // 해당 경로는 모든 접근 가능
+                        .requestMatchers("/security/admin").hasRole("ADMIN") // ADMIN 권한만 접근 가능
                         .requestMatchers("/my/**").hasAnyRole("ADMIN","USER") // ** 와일드카드 적용 , ADMIN, USER 접근 가능
                         //.requestMatchers("/deny").denyAll() // 모든권한 접근 제한
                         .anyRequest().authenticated() // 나머지 모든 경로 - 모든 로그인 사용자 접근 가능
