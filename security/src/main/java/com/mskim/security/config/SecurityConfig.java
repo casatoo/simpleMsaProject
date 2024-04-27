@@ -29,8 +29,8 @@ public class SecurityConfig {
                 );
 
         http
-                .formLogin((auth) -> auth.loginPage("/login/login") // 자동으로 로그인 페이지로 이동
-                        .loginProcessingUrl("/loginProc") // 로그인 데이터를 넘겨 로그인처리를 진행
+                .formLogin((auth) -> auth.loginPage("/security/login") // 자동으로 로그인 페이지로 이동
+                        .loginProcessingUrl("/security/loginProc") // 로그인 데이터를 넘겨 로그인처리를 진행
                         .permitAll()
                 );
 

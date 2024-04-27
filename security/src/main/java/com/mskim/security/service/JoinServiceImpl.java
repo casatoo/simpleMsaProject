@@ -19,11 +19,17 @@ public class JoinServiceImpl implements JoinService {
     @Override
     public void joinProcess(JoinDTO joinDTO){
 
+        boolean isLoginId = userRepository.existsByLoginId(joinDTO.getLoginId());
+
+        if(isLoginId) {
+            return;
+        }
+
         UserEntity data = new UserEntity();
 
         data.setLoginId(joinDTO.getLoginId());
         data.setPassword(bCryptPasswordEncoder.encode(joinDTO.getPassword()));
-        data.setRole("ROLE_USER");
+        data.setRole("ROLE_USER"); // ROLE_ 이 접두사로 필요함
 
         userRepository.save(data);
 
