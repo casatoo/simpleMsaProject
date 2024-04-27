@@ -35,8 +35,12 @@ public class SecurityConfig {
                         .permitAll()
                 );
 
-        http
-                .csrf((auth) -> auth.disable()); // 위변조 방지를 위한 설정 임시 disable 처리
+        http    // csrf 설정 시 로그아웃 요청을 post 로 해야하지만 get 방식으로 요청 시 해당 설정이 필요 함, logoutController 설정도 필요
+                .logout((auth) -> auth.logoutUrl("/security/logout")
+                        .logoutSuccessUrl("/"));
+
+//        http    // Cross-Site Request Forgery
+//                .csrf((auth) -> auth.disable()); // 위변조 방지를 위한 설정 임시 disable 처리
 
         http
                 .sessionManagement((auth) -> auth
