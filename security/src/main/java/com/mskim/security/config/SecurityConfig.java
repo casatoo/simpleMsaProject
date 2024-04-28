@@ -2,6 +2,7 @@ package com.mskim.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -33,18 +34,19 @@ public class SecurityConfig {
                 );
 
         http
-                .formLogin((auth) -> auth
-                        .loginPage("/security/login") // 자동으로 로그인 페이지로 이동
-                        .loginProcessingUrl("/security/loginProc") // 로그인 데이터를 넘겨 로그인처리를 진행
-                        .permitAll()
-                );
+//                .formLogin((auth) -> auth // formLogin 방식 구현
+//                        .loginPage("/security/login") // 자동으로 로그인 페이지로 이동
+//                        .loginProcessingUrl("/security/loginProc") // 로그인 데이터를 넘겨 로그인처리를 진행
+//                        .permitAll()
+//                );
+                .httpBasic(Customizer.withDefaults()); // http basic 방식 로그인 구현
 
         http    // csrf 설정 시 로그아웃 요청을 post 로 해야하지만 get 방식으로 요청 시 해당 설정이 필요 함, logoutController 설정도 필요
                 .logout((auth) -> auth.logoutUrl("/security/logout")
                         .logoutSuccessUrl("/"));
 
 //        http    // Cross-Site Request Forgery
-//                .csrf((auth) -> auth.disable()); // 위변조 방지를 위한 설정 임시 disable 처리
+//                .csrf((auth) -> auth.disable()); // 위변조 방지를 위한 설정, 임시 disable 처리
 
         http
                 .sessionManagement((auth) -> auth
