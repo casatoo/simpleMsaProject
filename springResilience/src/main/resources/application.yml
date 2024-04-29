@@ -1,0 +1,39 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: springResilience
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://admin:1234@localhost:8761/eureka
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-type: count_based #\uC2E4\uD328 \uBC0F \uC9C0\uC5F0\uC744 \uCCB4\uD06C\uD560 \uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0 \uD0C0\uC785
+        sliding-window-szie: 5 #\uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0 \uD06C\uAE30
+        failure-rate-threshold: 10 #\uC11C\uD0B7\uC744 \uC624\uD508\uD560 \uC2E4\uD328 \uBE44\uC728 (\uC2E4\uD328 \uC218 / \uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0 \uD06C\uAE30) %
+        minimum-number-of-calls: 5 #\uC11C\uD0B7\uC744 \uC624\uD508\uD558\uAE30 \uC704\uD574 \uCD5C\uC18C \uC2E4\uD328 \uC218 (\uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0\uB97C \uB2E4 \uCC44\uC6B0\uC9C0 \uBABB\uD588\uC9C0\uB9CC \uCD5C\uC18C\uAC12\uC744 \uC124\uC815 \uAC00\uB2A5)
+        slow-call-rate-threshold: 10 #\uC11C\uD0B7\uC744 \uC624\uD508\uD560 \uC9C0\uC5F0 \uBE44\uC728 (\uC9C0\uC5F0 \uC218 / \uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0 \uD06C\uAE30)
+        slow-call-duration-threshold: 3000ms #\uC9C0\uC5F0\uC73C\uB85C \uD310\uB2E8\uD560 \uC2DC\uAC04
+        permitted-number-of-calls-in-half-open-state: 10 #half open \uC0C1\uD0DC\uC5D0\uC11C \uB2E4\uB978 \uC0C1\uD0DC\uB85C \uC804\uD658\uD558\uAE30 \uC704\uD55C \uD310\uB2E8 \uC218
+        max-wait-duration-in-half-open-state: 0 #half open \uC0C1\uD0DC \uC720\uC9C0 \uC2DC\uAC04 (\uB9CC\uC57D 0\uC774\uBA74 \uC704\uC5D0\uC11C \uC124\uC815\uD55C \uAC12 \uB9CC\uD07C \uC218\uD589 \uD6C4 \uB2E4\uC74C \uC0C1\uD0DC\uB85C \uC804\uD658)
+        wait-duration-in-open-state: 600000ms #open \uC0C1\uD0DC\uC5D0\uC11C half open\uC73C\uB85C \uC804\uD658\uAE4C\uC9C0 \uAE30\uB2E4\uB9AC\uB294 \uC2DC\uAC04
+        automatic-transition-from-open-to-half-open-enabled: true #open \uC0C1\uD0DC\uC5D0\uC11C half open \uC73C\uB85C \uC790\uB3D9 \uC804\uD658 (true\uC2DC \uC77C\uC815 \uC2DC\uAC04\uC774 \uC9C0\uB09C \uD6C4 \uC790\uB3D9 \uC804\uD658)
+        register-health-indicator: true #\uC0C1\uD0DC \uCCB4\uD06C \uD45C\uC2DC (actuator\uC6A9)
+        ignore-exceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.client.HttpServerErrorException
+    instances:
+      MainController_Method1:
+        base-config: default

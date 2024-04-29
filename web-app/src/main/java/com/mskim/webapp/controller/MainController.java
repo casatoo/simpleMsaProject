@@ -1,4 +1,4 @@
-package com.mskim.webapp.main;
+package com.mskim.webapp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-    @GetMapping("ms1/main")
+    @GetMapping("/ms1/main")
     public String main() {
-        return "main/main";
+        return "/main/main";
     }
 
 }
