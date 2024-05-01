@@ -16,20 +16,49 @@ eureka:
       defaultZone: http://admin:1234@localhost:8761/eureka
 
 resilience4j:
+  bulkhead:
+    instances:
+      MainController_Method3:
+        base-config: default
+    configs:
+      default:
+        max-concurrent-calls: 1 # 최대 요청 카운터 수
+        max-wait-duration: 1000ms # 동시요청 초과 시 웨이팅 시간
+  thread-pool-bulkhead:
+    instances:
+      MainController_Method4:
+        base-config: default
+    configs:
+      default:
+        max-thread-pool-size: 10 # 최대 스레드 풀
+        core-thread-pool-size: 5 # 기본 스레드 풀
+        queue-capacity: 50 # 스레드 풀 초과 시 요청이 기다릴 대기 큐 크기
+  retry:
+    instances:
+      MainController_Method2:
+        base-config: default
+    configs:
+      default:
+        max-attempts: 3 # 재요청 시도 횟수
+        wait-duration: 3000ms # 재요청 간격
+        retry-exception: # 예외처리 포함
+          - java.io.IOException
+        ignore-exceptions: # 예외처리 미 포함
+          - java.io.IOException
   circuitbreaker:
     configs:
       default:
-        sliding-window-type: count_based #\uC2E4\uD328 \uBC0F \uC9C0\uC5F0\uC744 \uCCB4\uD06C\uD560 \uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0 \uD0C0\uC785
-        sliding-window-szie: 5 #\uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0 \uD06C\uAE30
-        failure-rate-threshold: 10 #\uC11C\uD0B7\uC744 \uC624\uD508\uD560 \uC2E4\uD328 \uBE44\uC728 (\uC2E4\uD328 \uC218 / \uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0 \uD06C\uAE30) %
-        minimum-number-of-calls: 5 #\uC11C\uD0B7\uC744 \uC624\uD508\uD558\uAE30 \uC704\uD574 \uCD5C\uC18C \uC2E4\uD328 \uC218 (\uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0\uB97C \uB2E4 \uCC44\uC6B0\uC9C0 \uBABB\uD588\uC9C0\uB9CC \uCD5C\uC18C\uAC12\uC744 \uC124\uC815 \uAC00\uB2A5)
-        slow-call-rate-threshold: 10 #\uC11C\uD0B7\uC744 \uC624\uD508\uD560 \uC9C0\uC5F0 \uBE44\uC728 (\uC9C0\uC5F0 \uC218 / \uC2AC\uB77C\uC774\uB529 \uC708\uB3C4\uC6B0 \uD06C\uAE30)
-        slow-call-duration-threshold: 3000ms #\uC9C0\uC5F0\uC73C\uB85C \uD310\uB2E8\uD560 \uC2DC\uAC04
-        permitted-number-of-calls-in-half-open-state: 10 #half open \uC0C1\uD0DC\uC5D0\uC11C \uB2E4\uB978 \uC0C1\uD0DC\uB85C \uC804\uD658\uD558\uAE30 \uC704\uD55C \uD310\uB2E8 \uC218
-        max-wait-duration-in-half-open-state: 0 #half open \uC0C1\uD0DC \uC720\uC9C0 \uC2DC\uAC04 (\uB9CC\uC57D 0\uC774\uBA74 \uC704\uC5D0\uC11C \uC124\uC815\uD55C \uAC12 \uB9CC\uD07C \uC218\uD589 \uD6C4 \uB2E4\uC74C \uC0C1\uD0DC\uB85C \uC804\uD658)
-        wait-duration-in-open-state: 600000ms #open \uC0C1\uD0DC\uC5D0\uC11C half open\uC73C\uB85C \uC804\uD658\uAE4C\uC9C0 \uAE30\uB2E4\uB9AC\uB294 \uC2DC\uAC04
-        automatic-transition-from-open-to-half-open-enabled: true #open \uC0C1\uD0DC\uC5D0\uC11C half open \uC73C\uB85C \uC790\uB3D9 \uC804\uD658 (true\uC2DC \uC77C\uC815 \uC2DC\uAC04\uC774 \uC9C0\uB09C \uD6C4 \uC790\uB3D9 \uC804\uD658)
-        register-health-indicator: true #\uC0C1\uD0DC \uCCB4\uD06C \uD45C\uC2DC (actuator\uC6A9)
+        sliding-window-type: count_based #실패 및 지연을 체크할 슬라이딩 윈도우 타입
+        sliding-window-szie: 5 #슬라이딩 윈도우 크기
+        failure-rate-threshold: 10 #서킷을 오픈할 실패 비율 (실패 수 / 슬라이딩 윈도우 크기)
+        minimum-number-of-calls: 5 #서킷을 오픈하기 위해 최소 실패 수 (슬라이딩 윈도우를 다 채우지 못했지만 최소값을 설정 가능)
+        slow-call-rate-threshold: 10 #서킷을 오픈할 지연 비율 (지연 수 / 슬라이딩 윈도우 크기)
+        slow-call-duration-threshold: 3000ms #지연으로 판단할 시간
+        permitted-number-of-calls-in-half-open-state: 10 #half open 상태에서 다른 상태로 전환하기 위한 판단 수
+        max-wait-duration-in-half-open-state: 0 #half open 상태 유지 시간 (만약 0이면 위에서 설정한 값 만큼 수행 후 다음 상태로 전환)
+        wait-duration-in-open-state: 600000ms #open 상태에서 half open으로 전환까지 기다리는 시간
+        automatic-transition-from-open-to-half-open-enabled: true #open 상태에서 half open 으로 자동 전환 (true시 일정 시간이 지난 후 자동 전환)
+        register-health-indicator: true #상태 체크 표시 (actuator용)
         ignore-exceptions:
           - java.io.IOException
           - java.util.concurrent.TimeoutException
@@ -37,3 +66,16 @@ resilience4j:
     instances:
       MainController_Method1:
         base-config: default
+
+# 상태체크 actuator 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
