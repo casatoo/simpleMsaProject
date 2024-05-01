@@ -1,19 +1,5 @@
 # simpleMsaProject
-##### 스프링부트 MSA 기본구성
----
-### api 호출
-##### getMapping
-- localhost:8080/ms1/main
-- localhost:8080/ms2/main
-- localhost:8080/ms3/first/db
-- localhost:8080/ms3/second/db
-- localhost:8080/ms4/data
-- localhost:8080/security/main
-- localhost:8080/security/login (로그인 화면)
-- localhost:8080/security/join (회원가입 화면)
-- localhost:8080/security/loginProc (로그인 요청)
-- localhost:8080/security/joinProc (회원가입 요청)
-- localhost:8086/ -> localhost:8081/ms1/data (10초 지연응답 서킷브레이커 테스트)
+##### 스프링부트 MSA 기본구성 및 추가기능 테스트를 위한 프로젝트
 ---
 ### environment
 - springBoot 3.2.5
@@ -31,6 +17,7 @@
 - webFluxMongodb : 8084
 - security : 8085
 - resilience4j : 8086
+- singleMongodb : 8087
 ---
 ### configServer gitHub
 - https://github.com/casatoo/config-test.git
@@ -70,4 +57,19 @@
 - register-health-indicator: true #상태 체크 표시 (actuator용)
 ##### 예외처리
 - ignore-exceptions: java.io.IOException, java.util.concurrent.TimeoutException, org.springframework.web.client.HttpServerErrorException
+##### retry
+- max-attempts: 3 # 재요청 시도 횟수
+- wait-duration: 3000ms # 재요청 간격
+- retry-exception: # 예외처리 포함
+  - java.io.IOException
+- ignore-exceptions: # 예외처리 미 포함
+  - java.io.IOException
+##### bulkhead
+(SEMAPHORE)  
+- max-concurrent-calls: 1 # 최대 요청 카운터 수
+- max-wait-duration: 1000ms # 동시요청 초과 시 웨이팅 시간
+(THREAD-POOL)
+- max-thread-pool-size: 10 # 최대 스레드 풀
+- core-thread-pool-size: 5 # 기본 스레드 풀
+- queue-capacity: 50 # 스레드 풀 초과 시 요청이 기다릴 대기 큐 크기
 ---

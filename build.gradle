@@ -12,6 +12,7 @@ dependencies {
     implementation project(':webFluxMongodb')
     implementation project(':security')
     implementation project(':springResilience')
+    implementation project(':singleMongodb')
 }
 repositories {
     mavenCentral()

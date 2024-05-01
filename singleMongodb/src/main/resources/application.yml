@@ -1,0 +1,19 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: singleMongodb
+  cloud:
+    config:
+      enabled: false
+  data:
+    mongodb:
+      uri: mongodb://admin:1234@localhost:27017/database
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://admin:1234@localhost:8761/eureka
