@@ -13,6 +13,7 @@ dependencies {
     implementation project(':security')
     implementation project(':springResilience')
     implementation project(':singleMongodb')
+    implementation project(':springJWT')
 }
 repositories {
     mavenCentral()
