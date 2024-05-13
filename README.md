@@ -18,6 +18,8 @@
 - security : 8085
 - resilience4j : 8086
 - singleMongodb : 8087
+- springJWT : 8088
+- OAuthSession : 8089
 ---
 ### configServer gitHub
 - https://github.com/casatoo/config-test.git
