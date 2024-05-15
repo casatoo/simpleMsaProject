@@ -1,5 +1,6 @@
 package com.mskim.oauthsession.config;
 
+import com.mskim.oauthsession.oauth2.CustomClientRegistrationRepo;
 import com.mskim.oauthsession.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +14,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomClientRegistrationRepo customClientRegistrationRepo;
 
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomClientRegistrationRepo customClientRegistrationRepo) {
 
         this.customOAuth2UserService = customOAuth2UserService;
+        this.customClientRegistrationRepo = customClientRegistrationRepo;
     }
 
     @Bean
@@ -33,13 +36,15 @@ public class SecurityConfig {
 
         http
                 .oauth2Login((oauth2) -> oauth2
+                        .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository()) // customClientRegistrationRepo OAuth2 설정 추가 - 설정하지 않으면 application.yml 에서 설정필요
                         .loginPage("/login")
                         .userInfoEndpoint((userInfoEndpointConfig) ->
                                 userInfoEndpointConfig.userService(customOAuth2UserService)));
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/oauth2/**", "/login/**", "/css/**", "/js/**", "/img/**").permitAll()
+                        .requestMatchers("/", "/oauth2/**", "/login/**").permitAll() // 로그인 , 루트 접근권한
+                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll() // css, js, img 경로 접근권한
                         .anyRequest().authenticated());
 
         return http.build();
