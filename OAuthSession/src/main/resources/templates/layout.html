@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">My Website</title>
+</head>
+<body>
+<header>
+    <h1>My Website Header</h1>
+</header>
+<nav>
+    <!-- Navigation bar content -->
+</nav>
+<div layout:fragment="content">
+    <!-- Page-specific content will be inserted here -->
+</div>
+<footer>
+    <p>My Website Footer</p>
+</footer>
+</body>
+</html>
