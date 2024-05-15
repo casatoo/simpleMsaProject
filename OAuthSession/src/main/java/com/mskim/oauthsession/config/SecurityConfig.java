@@ -33,12 +33,13 @@ public class SecurityConfig {
 
         http
                 .oauth2Login((oauth2) -> oauth2
-                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService)));
+                        .loginPage("/login")
+                        .userInfoEndpoint((userInfoEndpointConfig) ->
+                                userInfoEndpointConfig.userService(customOAuth2UserService)));
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/", "/oauth2/**", "/login/**", "/css/**", "/js/**", "/img/**").permitAll()
                         .anyRequest().authenticated());
 
         return http.build();
