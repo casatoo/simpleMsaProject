@@ -1,9 +1,11 @@
 package com.mskim.oauthsession.config;
 
 import com.mskim.oauthsession.oauth2.CustomClientRegistrationRepo;
+import com.mskim.oauthsession.oauth2.CustomOAuth2AuthorizedClientService;
 import com.mskim.oauthsession.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,11 +17,15 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomClientRegistrationRepo customClientRegistrationRepo;
+    private final CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService;
+    private final JdbcTemplate jdbcTemplate;
 
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomClientRegistrationRepo customClientRegistrationRepo) {
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomClientRegistrationRepo customClientRegistrationRepo, CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService, JdbcTemplate jdbcTemplate) {
 
         this.customOAuth2UserService = customOAuth2UserService;
         this.customClientRegistrationRepo = customClientRegistrationRepo;
+        this.customOAuth2AuthorizedClientService = customOAuth2AuthorizedClientService;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Bean
@@ -37,6 +43,7 @@ public class SecurityConfig {
         http
                 .oauth2Login((oauth2) -> oauth2
                         .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository()) // customClientRegistrationRepo OAuth2 설정 추가 - 설정하지 않으면 application.yml 에서 설정필요
+                        .authorizedClientService(customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(jdbcTemplate, customClientRegistrationRepo.clientRegistrationRepository())) // OAuth2AuthorizedClientService 설정
                         .loginPage("/login")
                         .userInfoEndpoint((userInfoEndpointConfig) ->
                                 userInfoEndpointConfig.userService(customOAuth2UserService)));
