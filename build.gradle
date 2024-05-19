@@ -15,6 +15,7 @@ dependencies {
     implementation project(':singleMongodb')
     implementation project(':springJWT')
     implementation project(':OAuthSession')
+    implementation project(':OAuthJWT')
 }
 repositories {
     mavenCentral()

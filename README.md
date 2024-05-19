@@ -20,6 +20,7 @@
 - singleMongodb : 8087
 - springJWT : 8088
 - OAuthSession : 8089
+- OAuthJWT : 8090
 ---
 ### configServer gitHub
 - https://github.com/casatoo/config-test.git
