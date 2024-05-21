@@ -21,6 +21,8 @@ spring:
       ddl-auto: none # \uC0DD\uC131\uD558\uC9C0 \uC54A\uC74C  / update \uC0DD\uC131\uD55C \uC5D4\uD2F0\uD2F0 \uAE30\uBC18\uC73C\uB85C \uD14C\uC774\uBE14\uC774 \uC0DD\uC131 \uB428
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  jwt:
+    secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaaaaaaaaaaaaaaabbbbb
   security:
     oauth2:
       client:
